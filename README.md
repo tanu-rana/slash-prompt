@@ -1,13 +1,13 @@
-# Pro Prompter - Chrome Extension
+# Slash Prompt - Chrome Extension
 
-A premium Chrome/Chromium extension for managing personal prompt libraries with slash-command integration in LLM chat interfaces. Features an elite UI/UX with modern cyan accent design, Sora typography, and comprehensive prompt management capabilities.
+A premium Chrome/Chromium extension for managing personal prompt libraries with double-slash (`//`) command integration in LLM chat interfaces. Features an elite UI/UX with modern cyan accent design, Sora typography, and comprehensive prompt management capabilities.
 
 ## ✨ Features
 
-### Universal Access - Works EVERYWHERE!
-- **🌍 Works on ALL Pages**: Chrome system pages, PDFs, new tabs, regular websites
-- **🪟 Hybrid Interface**: Popup mode (universal) + Side panel mode (on regular sites)
-- **🚀 Instant Access**: Click extension icon for immediate access anywhere
+### Universal Access - Works on all LLM Sites
+- **🌍 Works across major LLM providers**: ChatGPT, Claude, Gemini, Perplexity, Bing, and more
+- **🪟 Hybrid Interface**: Popup (everywhere) + Injected right-side panel overlay (on regular sites)
+- **🚀 Instant Access**: Click the extension icon or use keyboard shortcuts
 
 ### Core Functionality
 - **📚 Prompt Library Management**: Create, edit, delete, and organize your prompts
@@ -65,14 +65,12 @@ The extension includes an SVG icon. To generate PNG versions:
 
 #### Opening the Extension
 1. **Click the extension icon** in your browser toolbar
-2. **Popup opens immediately** on ANY page (including chrome://, PDFs, new tabs)
-3. **On regular websites**: Click the side panel button (⊞) to convert to fixed side panel
-4. **New window option**: Click popout button (↗) for a larger standalone window
+2. **Popup opens immediately** on any page (including chrome://, PDFs, new tabs)
+3. **On regular websites**: the extension can inject a fixed right-side panel overlay (iframe) with the same UI
 
 #### Interface Modes
-- **Popup Mode** (Default): 400x600px popup, works everywhere
-- **Side Panel Mode**: Fixed 360px panel on right side (regular sites only)
-- **Window Mode**: Standalone window you can resize and position
+- **Popup Mode** (Default): Refined popup panel (≈400×600px), works everywhere
+- **Injected Panel Mode**: Fixed overlay panel on the right side (regular sites only), using the same refined UI inside an iframe
 
 #### Adding Prompts
 1. Click "New Prompt" button
@@ -81,8 +79,8 @@ The extension includes an SVG icon. To generate PNG versions:
 
 #### Using Slash Commands
 1. Navigate to any supported LLM chat (ChatGPT, Claude, Gemini, etc.)
-2. Type `/` in the chat input
-3. Autocomplete dropdown appears with your prompts
+2. Type `//` in the chat input (double-slash)
+3. Autocomplete dropdown appears with your prompts (above the input, not below)
 4. Use arrow keys or mouse to select
 5. Press Enter/Tab to insert
 
@@ -96,7 +94,7 @@ The extension includes an SVG icon. To generate PNG versions:
    - Per-prompt actions (copy, download, edit, delete)
 
 ### Keyboard Shortcuts
-- **/** : Trigger autocomplete in chat (on supported LLM sites)
+- **`//`**: Trigger autocomplete in chat (on supported LLM sites)
 - **Esc**: Close modals or popup
 - **Arrow keys**: Navigate autocomplete suggestions
 - **Enter/Tab**: Insert selected prompt
@@ -131,28 +129,27 @@ The extension includes an SVG icon. To generate PNG versions:
 
 ## 🏗️ Architecture
 
-### Project Structure
+### Project Structure (Current)
 ```
 prompt-manager-extension/
-├── manifest.json           # Extension configuration
-├── background.js          # Service worker for storage/messaging
-├── content.js            # Slash command detection & autocomplete
-├── content.css          # Autocomplete dropdown styles
-├── popup-panel.html     # Universal popup interface (NEW)
-├── popup-panel.js      # Popup logic with side panel support (NEW)
-├── popup-panel.css    # Popup styles (400x600px) (NEW)
-├── inject-panel.js   # Side panel injection logic
-├── sidepanel.html   # Side panel interface (360px wide)
-├── sidepanel.js    # Side panel logic
-├── sidepanel.css  # Side panel styles
-├── popup.html    # Legacy popup (deprecated)
-├── popup.js     # Legacy popup logic
-├── popup.css   # Legacy popup styles
-├── options.html # Full management page
-├── options.js  # Options page logic
-├── options.css # Options page styles
-├── icons/     # Extension icons
-└── example-prompts.json  # Sample prompt library
+├── manifest.json                # Extension configuration (MV3)
+├── background.js                # Service worker: storage, messaging, context menus, panel injection
+├── content.js                   # Double-slash (//) detection & autocomplete behavior
+├── content-refined.css          # Refined autocomplete dropdown styles
+├── inject-panel.js              # Injects right-side iframe panel into pages
+├── popup-panel-refined.html     # Main popup / panel UI
+├── popup-panel-refined.js       # Popup/panel logic, folders, favorites, sharing, settings
+├── popup-panel-refined.css      # Refined design system styles for popup/panel
+├── options.html                 # Full management/options page
+├── options.js                   # Library management, tags, settings, import/export
+├── options.css                  # Options page styles
+├── share.html                   # Read-only shared prompt page
+├── share.js                     # Loads shared prompt data and renders share page
+├── default-prompts.js           # Default prompt library (used on first install in some flows)
+├── icons/                       # Extension icons
+├── scripts/
+│   └── generate-icons.js        # Dev utility to generate icons
+└── example-prompts.json         # Sample prompt library
 ```
 
 ### Components
@@ -164,19 +161,18 @@ prompt-manager-extension/
 - Import/export operations
 - Toggles side panel on extension icon click
 
-#### Side Panel (NEW)
-- Fixed position on right side of screen
-- Full-height interface matching Simplify extension style
-- Tabbed interface (Prompts, Tags, Settings)
+#### Injected Panel
+- Fixed position on right side of screen (iframe overlay injected into page)
+- Full-height interface that reuses the same refined popup UI
+- Tabbed interface (Prompts, Favorites, Folders, Settings, Feedback)
 - Minimize/restore functionality
 - Responsive to different screen sizes
 
 #### Content Scripts
-- **inject-panel.js**: Injects side panel iframe into page
-- **content.js**: Monitors chat inputs for "/" trigger
-- Renders autocomplete dropdown
-- Handles prompt insertion
-- Tracks usage statistics
+- **content.js**: Monitors chat inputs for `//` trigger
+- Renders the refined autocomplete dropdown (`.prompt-autocomplete-dropdown`)
+- Handles prompt insertion into textareas and contenteditable fields
+- Tracks usage statistics via background messaging
 
 #### Options Page
 - Full library management
@@ -286,17 +282,6 @@ The extension requires:
 2. Check file size (<5MB recommended)
 3. Ensure valid UTF-8 encoding
 
-## 📝 License
-
-MIT License - Feel free to modify and distribute
-
-## 🤝 Contributing
-
-Contributions welcome! Please follow:
-1. ESLint + Prettier formatting
-2. Maintain design consistency
-3. Add unit tests for new features
-4. Update documentation
 
 ## 📞 Support
 
@@ -305,6 +290,3 @@ For issues, feature requests, or questions:
 - Check existing issues first
 - Provide reproduction steps
 
----
-
-Built with ❤️ for the prompt engineering community
