@@ -1,0 +1,314 @@
+/* Refined Content CSS - Premium Glassmorphic Theme (Beyond ChatGPT) */
+
+/* Autocomplete Dropdown - Premium Glassmorphism (Sleeker than ChatGPT) */
+.prompt-autocomplete-dropdown {
+  /* Positioning */
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  
+  /* Dimensions */
+  max-height: 195px !important;
+  min-height: 35px !important;
+  width: auto !important;
+  min-width: 182px !important;
+  max-width: 247px !important;
+  padding: 8px 0 !important;
+  box-sizing: border-box !important;
+  
+  /* Overflow */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important; /* Firefox - hide scrollbar */
+  
+  /* Visual - Glassmorphism */
+  background: linear-gradient(135deg, rgba(47, 47, 47, 0.97) 0%, rgba(40, 40, 40, 0.95) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
+              0 4px 12px rgba(0, 0, 0, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(25px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+  
+  /* Typography reset */
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.12em !important;
+  
+  /* Animation */
+  animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  
+  /* Visibility */
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Hide scrollbar completely (ChatGPT style) but keep scrolling */
+.prompt-autocomplete-dropdown::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Edge */
+}
+
+.prompt-autocomplete-dropdown {
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+/* Prompt Items - Premium sleek style (Forced consistency across all platforms) */
+.prompt-autocomplete-dropdown .prompt-item {
+  /* Force exact dimensions - override any platform styles */
+  padding: 11px 36px 11px 14px !important;
+  margin: 3px 8px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  
+  /* Visual styles */
+  cursor: pointer !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  position: relative !important;
+  
+  /* Typography */
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.12em !important;
+  
+  /* Colors */
+  background: transparent !important;
+  color: #E5E5E5 !important;
+  
+  /* Reset any inherited styles */
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  overflow: hidden !important;
+}
+
+.prompt-autocomplete-dropdown .prompt-item:first-child {
+  margin-top: 5px !important;
+}
+
+.prompt-autocomplete-dropdown .prompt-item:last-child {
+  margin-bottom: 5px !important;
+}
+
+.prompt-autocomplete-dropdown .prompt-item-empty {
+  padding: 11px 36px 11px 14px !important;
+  margin: 3px 8px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  cursor: default !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.12em !important;
+  color: #E5E5E5 !important;
+  opacity: 0.92 !important;
+  background: transparent !important;
+  transform: none !important;
+}
+
+.prompt-autocomplete-dropdown .prompt-item-empty:hover {
+  background: transparent !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.prompt-autocomplete-dropdown .prompt-item:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  transform: scale(1.01) translateX(2px) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.prompt-autocomplete-dropdown .prompt-item.selected {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.12) 100%) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  transform: scale(1.01) !important;
+}
+
+/* Prompt Title - Premium typography (Height controlled) */
+.prompt-autocomplete-dropdown .prompt-item .prompt-title {
+  /* Typography */
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.12em !important;
+  
+  /* Layout - prevent height expansion */
+  display: block !important;
+  width: 100% !important;
+  max-height: 20px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  
+  /* Visual */
+  color: #E5E5E5 !important;
+  opacity: 0.92 !important;
+  text-align: left !important;
+  
+  /* Reset inherited styles */
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  box-sizing: border-box !important;
+  
+  /* Animation */
+  transition: all 0.25s ease !important;
+  visibility: visible !important;
+}
+
+.prompt-autocomplete-dropdown .prompt-item:hover .prompt-title {
+  opacity: 1 !important;
+  color: #FFFFFF !important;
+  letter-spacing: 0.12em !important;
+  transform: translateX(1px) !important;
+}
+
+.prompt-autocomplete-dropdown .prompt-item.selected .prompt-title {
+  font-weight: 500 !important;
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+  letter-spacing: 0.12em !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Hide tags in autocomplete view */
+.prompt-tags {
+  display: none;
+}
+
+/* Edit Icon Button - Matches dropdown theme colors */
+.prompt-item-edit-btn {
+  position: absolute !important;
+  right: 10px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  opacity: 0 !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  z-index: 10 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.prompt-item:hover .prompt-item-edit-btn {
+  opacity: 0.65 !important;
+}
+
+.prompt-item-edit-btn:hover {
+  opacity: 1 !important;
+  transform: translateY(-50%) scale(1.1) !important;
+}
+
+.prompt-item-edit-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+  fill: none !important;
+  stroke: #E5E5E5 !important;
+  stroke-width: 2 !important;
+  transition: stroke 0.25s ease !important;
+}
+
+/* Edit icon matches prompt text color on hover */
+.prompt-item:hover .prompt-item-edit-btn svg {
+  stroke: #FFFFFF !important;
+}
+
+/* Edit icon on selected item */
+.prompt-item.selected .prompt-item-edit-btn svg {
+  stroke: #FFFFFF !important;
+}
+
+/* Tooltip - Removed (no hover effects per requirement) */
+.prompt-tooltip {
+  display: none !important;
+}
+
+/* Ensure dropdown appears above other elements */
+.prompt-autocomplete-dropdown {
+  pointer-events: auto;
+}
+
+/* Responsive font size for different screen sizes */
+@media (max-width: 768px) {
+  .prompt-autocomplete-dropdown {
+    min-width: 280px;
+    max-width: 400px;
+  }
+  
+  .prompt-title {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .prompt-autocomplete-dropdown {
+    min-width: 240px;
+    max-width: 320px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .prompt-autocomplete-dropdown {
+    border: 2px solid #E5E5E5;
+  }
+  
+  .prompt-item.selected {
+    border-left-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .prompt-autocomplete-dropdown {
+    animation: none;
+  }
+  
+  .prompt-item {
+    transition: none;
+  }
+}
+
+/* Dark mode adjustments (already dark by default) */
+@media (prefers-color-scheme: light) {
+  /* Keep dark glassmorphic theme even in light mode for consistency */
+  .prompt-autocomplete-dropdown {
+    background: rgba(47, 47, 47, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  .prompt-title {
+    color: #E5E5E5;
+  }
+}

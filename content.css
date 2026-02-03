@@ -1,0 +1,178 @@
+/* Content Script Styles - Autocomplete Dropdown and Tooltip */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Sora:wght@300;400;500&display=swap');
+
+.prompt-autocomplete-dropdown {
+  position: fixed;
+  z-index: 2147483647;
+  background: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 300px;
+  max-width: 400px;
+  max-height: 320px;
+  overflow-y: auto;
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.3),
+    0 10px 10px -5px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  font-family: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+  animation: slideIn 0.15s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.prompt-autocomplete-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.prompt-autocomplete-dropdown::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.prompt-autocomplete-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.prompt-autocomplete-dropdown::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.prompt-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+.prompt-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(2px);
+}
+
+.prompt-item.selected {
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 2px solid #45B7D1;
+  padding-left: 10px;
+}
+
+.prompt-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #F5F5F5;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.prompt-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.prompt-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #000000;
+  opacity: 0.9;
+  transition: opacity 0.15s ease;
+}
+
+.prompt-tag:hover {
+  opacity: 1;
+}
+
+/* Tooltip Styles */
+.prompt-tooltip {
+  position: fixed;
+  z-index: 2147483646;
+  background: rgba(30, 30, 30, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px;
+  max-width: 350px;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.3),
+    0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  font-family: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+  animation: fadeIn 0.2s ease-out;
+  pointer-events: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tooltip-content {
+  color: #F5F5F5;
+}
+
+.tooltip-preview {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(245, 245, 245, 0.85);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Light mode adjustments */
+@media (prefers-color-scheme: light) {
+  .prompt-autocomplete-dropdown {
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .prompt-item:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .prompt-item.selected {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  .prompt-title {
+    color: #1a1a1a;
+  }
+
+  .prompt-tag {
+    color: #FFFFFF;
+  }
+
+  .prompt-tooltip {
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .tooltip-preview {
+    color: rgba(26, 26, 26, 0.85);
+  }
+}

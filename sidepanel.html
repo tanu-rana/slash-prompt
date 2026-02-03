@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Manager Pro</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="sidepanel-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-title">
+        <svg class="logo" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+        </svg>
+        <h1 class="app-title">Prompt Manager</h1>
+      </div>
+      <div class="header-actions">
+        <button id="minimizeBtn" class="icon-btn" title="Minimize">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+        <button id="closeBtn" class="icon-btn" title="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="prompts">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+        </svg>
+        <span>Prompts</span>
+      </button>
+      <button class="tab-btn" data-tab="tags">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+          <line x1="7" y1="7" x2="7.01" y2="7"></line>
+        </svg>
+        <span>Tags</span>
+      </button>
+      <button class="tab-btn" data-tab="settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M12 1v6m0 6v6m4.22-13.22l4.24 4.24M18.36 18.36l4.24 4.24M23 12h-6m-6 0H1m4.22 4.22l-4.24 4.24M5.64 5.64L1.4 1.4"></path>
+        </svg>
+        <span>Settings</span>
+      </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+      <!-- Prompts Tab -->
+      <div id="promptsTab" class="tab-panel active">
+        <!-- Search Bar -->
+        <div class="search-container">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search prompts..." autocomplete="off">
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button id="addPromptBtn" class="action-btn primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>New Prompt</span>
+          </button>
+          <button id="manageBtn" class="action-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <rect x="8" y="8" width="8" height="8"></rect>
+            </svg>
+            <span>Manage</span>
+          </button>
+        </div>
+
+        <!-- Tag Filter -->
+        <div id="tagFilter" class="tag-filter"></div>
+
+        <!-- Prompts List -->
+        <div class="prompts-container">
+          <div id="promptsList" class="prompts-list">
+            <!-- Prompts will be dynamically inserted here -->
+          </div>
+          
+          <!-- Empty State -->
+          <div id="emptyState" class="empty-state" style="display: none;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <p class="empty-title">No prompts yet</p>
+            <p class="empty-subtitle">Create your first prompt to get started</p>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+          <div class="footer-stats">
+            <span id="promptCount">0 prompts</span>
+          </div>
+          <div class="footer-actions">
+            <button id="importBtn" class="text-btn">Import</button>
+            <button id="exportBtn" class="text-btn">Export</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tags Tab -->
+      <div id="tagsTab" class="tab-panel">
+        <div class="tags-container">
+          <div class="tags-header">
+            <h2>Manage Tags</h2>
+            <button id="addTagBtn" class="action-btn primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>New Tag</span>
+            </button>
+          </div>
+          <div id="tagsGrid" class="tags-grid">
+            <!-- Tags will be dynamically inserted -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div id="settingsTab" class="tab-panel">
+        <div class="settings-container">
+          <h2>Settings</h2>
+          
+          <div class="setting-group">
+            <h3>Appearance</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="darkModeToggle">Dark Mode</label>
+                <p>Use dark theme for the extension</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="darkModeToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3>Search & Suggestions</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="fuzzySearchToggle">Fuzzy Search</label>
+                <p>Enable fuzzy matching</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="fuzzySearchToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="autoSuggestToggle">Auto-Suggest</label>
+                <p>Show suggestions when typing /</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="autoSuggestToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Prompt Modal -->
+  <div id="promptModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Prompt</h2>
+        <button id="closeModal" class="icon-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="promptTitle">Title</label>
+          <input type="text" id="promptTitle" class="form-input" placeholder="Enter prompt title...">
+        </div>
+        
+        <div class="form-group">
+          <label for="promptContent">Content</label>
+          <textarea id="promptContent" class="form-textarea" placeholder="Enter your prompt..." rows="6"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="promptTags">Tags</label>
+          <div id="tagSelector" class="tag-selector">
+            <!-- Tags will be dynamically inserted -->
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelBtn" class="action-btn">Cancel</button>
+        <button id="savePromptBtn" class="action-btn primary">Save Prompt</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>

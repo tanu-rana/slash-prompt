@@ -1,0 +1,128 @@
+{
+  "version": "1.0.0",
+  "exportDate": "2024-01-01T00:00:00.000Z",
+  "prompts": [
+    {
+      "id": "prompt_1704067200000_abc123",
+      "title": "Code Review Assistant",
+      "content": "Please review the following code and provide detailed feedback on:\n1. Code quality and readability\n2. Potential bugs or issues\n3. Performance optimizations\n4. Security concerns\n5. Best practices and design patterns\n6. Suggestions for improvement\n\nCode to review:\n```\n[paste your code here]\n```",
+      "tags": ["coding", "analysis"],
+      "createdAt": 1704067200000,
+      "lastUsed": null,
+      "useCount": 0
+    },
+    {
+      "id": "prompt_1704067300000_def456",
+      "title": "Explain Like I'm 5",
+      "content": "Can you explain [topic/concept] in simple terms that a 5-year-old could understand? Use analogies and examples from everyday life to make it clear and engaging.",
+      "tags": ["writing", "creative"],
+      "createdAt": 1704067300000,
+      "lastUsed": null,
+      "useCount": 0
+    },
+    {
+      "id": "prompt_1704067400000_ghi789",
+      "title": "Debug Helper",
+      "content": "I'm experiencing the following error/bug:\n```\n[error message]\n```\n\nContext:\n- Language/Framework: [specify]\n- What I was trying to do: [describe]\n- What actually happened: [describe]\n- What I expected: [describe]\n\nCode snippet:\n```\n[relevant code]\n```\n\nPlease help me identify the root cause and provide a solution.",
+      "tags": ["coding", "analysis"],
+      "createdAt": 1704067400000,
+      "lastUsed": null,
+      "useCount": 0
+    },
+    {
+      "id": "prompt_1704067500000_jkl012",
+      "title": "Unit Test Generator",
+      "content": "Generate comprehensive unit tests for the following function/class. Include:\n- Edge cases\n- Happy path scenarios\n- Error handling\n- Boundary conditions\n- Mock dependencies if needed\n\nCode to test:\n```\n[paste your code here]\n```\n\nTesting framework preference: [Jest/Mocha/pytest/unittest/etc.]",
+      "tags": ["coding"],
+      "createdAt": 1704067500000,
+      "lastUsed": null,
+      "useCount": 0
+    },
+    {
+      "id": "prompt_1704067600000_mno345",
+      "title": "API Documentation Writer",
+      "content": "Create comprehensive API documentation for the following endpoint(s):\n\nEndpoint details:\n- Method: [GET/POST/PUT/DELETE]\n- Path: [/api/...]\n- Purpose: [describe]\n\nRequest format:\n```json\n[example request]\n```\n\nResponse format:\n```json\n[example response]\n```\n\nInclude:\n1. Clear description\n2. Parameters (query, path, body)\n3. Request/response examples\n4. Error codes and messages\n5. Authentication requirements\n6. Rate limiting info",
+      "tags": ["writing", "coding"],
+      "createdAt": 1704067600000,
+      "lastUsed": null,
+      "useCount": 0
+    },
+    {
+      "id": "prompt_1704067700000_pqr678",
+      "title": "SQL Query Optimizer",
+      "content": "Analyze and optimize the following SQL query for better performance:\n\n```sql\n[paste your query here]\n```\n\nDatabase: [MySQL/PostgreSQL/SQLite/etc.]\nTable sizes: [provide estimates]\n\nPlease provide:\n1. Optimized version of the query\n2. Explanation of changes made\n3. Index recommendations\n4. Performance impact estimate",
+      "tags": ["coding", "analysis"],
+      "createdAt": 1704067700000,
+      "lastUsed": null,
+      "useCount": 0
+    },
+    {
+      "id": "prompt_1704067800000_stu901",
+      "title": "Business Email Writer",
+      "content": "Help me write a professional email with the following details:\n\nPurpose: [meeting request/follow-up/proposal/etc.]\nRecipient: [client/colleague/manager/etc.]\nKey points to cover:\n- [point 1]\n- [point 2]\n- [point 3]\n\nTone: [formal/semi-formal/friendly]\nDesired outcome: [what you want to achieve]\n\nPlease make it concise, clear, and action-oriented.",
+      "tags": ["writing", "business"],
+      "createdAt": 1704067800000,
+      "lastUsed": null,
+      "useCount": 0
+    },
+    {
+      "id": "prompt_1704067900000_vwx234",
+      "title": "Research Summarizer",
+      "content": "Please analyze and summarize the following research/article/paper:\n\n[paste content or provide link]\n\nProvide:\n1. Executive summary (2-3 sentences)\n2. Key findings/arguments\n3. Methodology (if applicable)\n4. Strengths and limitations\n5. Practical implications\n6. Related topics for further exploration",
+      "tags": ["research", "analysis"],
+      "createdAt": 1704067900000,
+      "lastUsed": null,
+      "useCount": 0
+    },
+    {
+      "id": "prompt_1704068000000_yza567",
+      "title": "Creative Story Starter",
+      "content": "Generate a creative story based on these elements:\n\nGenre: [fantasy/sci-fi/mystery/romance/thriller]\nSetting: [describe time and place]\nMain character: [brief description]\nConflict: [central problem or challenge]\nTone: [dark/humorous/serious/whimsical]\n\nPlease create:\n1. An engaging opening (200-300 words)\n2. Three potential plot directions\n3. Key themes to explore\n4. Suggested character arc",
+      "tags": ["creative", "writing"],
+      "createdAt": 1704068000000,
+      "lastUsed": null,
+      "useCount": 0
+    },
+    {
+      "id": "prompt_1704068100000_bcd890",
+      "title": "Refactoring Assistant",
+      "content": "Help me refactor this code to improve:\n- Readability\n- Maintainability\n- Performance\n- Following SOLID principles\n- Reducing complexity\n\nCurrent code:\n```\n[paste your code here]\n```\n\nConstraints:\n- Must maintain backward compatibility: [yes/no]\n- Target language version: [specify]\n- Performance requirements: [describe if any]\n\nPlease provide the refactored code with explanations for each change.",
+      "tags": ["coding"],
+      "createdAt": 1704068100000,
+      "lastUsed": null,
+      "useCount": 0
+    }
+  ],
+  "tags": [
+    {
+      "id": "coding",
+      "name": "Coding",
+      "color": "#FF6B6B"
+    },
+    {
+      "id": "writing",
+      "name": "Writing",
+      "color": "#4ECDC4"
+    },
+    {
+      "id": "analysis",
+      "name": "Analysis",
+      "color": "#45B7D1"
+    },
+    {
+      "id": "creative",
+      "name": "Creative",
+      "color": "#F7DC6F"
+    },
+    {
+      "id": "research",
+      "name": "Research",
+      "color": "#BB8FCE"
+    },
+    {
+      "id": "business",
+      "name": "Business",
+      "color": "#52C41A"
+    }
+  ]
+}

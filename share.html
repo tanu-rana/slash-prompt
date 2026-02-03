@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shared Prompt - Prompt Manager Pro</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #0D0D0D;
+      --bg-card: #121212;
+      --text-primary: #FFFFFF;
+      --text-secondary: #8B8B8B;
+      --text-tertiary: #5A5A5A;
+      --accent-primary: #00F5FF;
+      --accent-secondary: #00B8D4;
+      --border-subtle: rgba(255, 255, 255, 0.05);
+      --border-focus: rgba(0, 245, 255, 0.3);
+      --glow: rgba(0, 245, 255, 0.15);
+    }
+    
+    body {
+      font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: radial-gradient(ellipse at top, #0D0D0D 0%, #000000 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Global scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #000000;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #000000;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0A0A0A;
+    }
+    
+    
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .navbar {
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(30px) saturate(150%);
+      -webkit-backdrop-filter: blur(30px) saturate(150%);
+      padding: 24px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .navbar-content {
+      max-width: 800px;
+      width: 100%;
+      padding: 0 56px 0 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text-primary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-left: -36px;
+    }
+    
+    .brand svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--accent-primary);
+      filter: drop-shadow(0 0 12px var(--glow)) drop-shadow(0 0 20px rgba(0, 245, 255, 0.3));
+      animation: iconPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes iconPulse {
+      0%, 100% { filter: drop-shadow(0 0 12px var(--glow)) drop-shadow(0 0 20px rgba(0, 245, 255, 0.3)); }
+      50% { filter: drop-shadow(0 0 16px var(--glow)) drop-shadow(0 0 28px rgba(0, 245, 255, 0.5)); }
+    }
+    
+    .btn-signup {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      background: linear-gradient(135deg, #00ACB3 0%, #008194 100%);
+      background-size: 200% auto;
+      color: #000000;
+      text-decoration: none;
+      box-shadow: none;
+    }
+    
+    .btn-signup * {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .btn-signup::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+      z-index: 0;
+    }
+    
+    .btn-signup:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      background-position: right center;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn-signup:active {
+      transform: translateY(0);
+    }
+    
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 80px 40px;
+      position: relative;
+    }
+    
+    .content-card {
+      max-width: 800px;
+      width: 100%;
+      background: #000000;
+      backdrop-filter: blur(60px) saturate(150%);
+      -webkit-backdrop-filter: blur(60px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 
+        0 50px 120px rgba(0, 0, 0, 0.9);
+      position: relative;
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card-header {
+      padding: 28px 56px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.01) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border-subtle);
+      position: relative;
+    }
+    
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(0, 245, 255, 0.18) 20%, 
+        rgba(0, 245, 255, 0.48) 50%, 
+        rgba(0, 245, 255, 0.18) 80%, 
+        transparent 100%);
+      animation: scanline 7.28s ease-in-out infinite;
+    }
+    
+    @keyframes scanline {
+      0%, 100% { transform: translateX(-100%); opacity: 0; }
+      10%, 90% { opacity: 1; }
+      50% { transform: translateX(100%); }
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+    }
+    
+    .header-left {
+      flex: 1;
+    }
+    
+    .btn-copy-header {
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+    
+    .header h1 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #E5E5E5;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo {
+      width: 28px;
+      height: 28px;
+    }
+    
+    
+    .btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    
+    .btn svg {
+      position: relative;
+      z-index: 1;
+      width: 14px;
+      height: 14px;
+    }
+    
+    .btn span,
+    .btn::after {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+      z-index: 0;
+    }
+    
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #00ACB3 0%, #008194 100%);
+      background-size: 200% auto;
+      color: #000000;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: none;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background-position: right center;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    
+    .btn.copied {
+      background: linear-gradient(135deg, #00FF88 0%, #00CC6A 100%);
+      color: #000000;
+      pointer-events: none;
+    }
+    
+    .card-body {
+      padding: 56px;
+    }
+    
+    .content-section {
+      margin-bottom: 0;
+    }
+    
+    .prompt-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 0;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+    }
+    
+    .prompt-meta {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.018) 0%, rgba(0, 0, 0, 0.3) 100%);
+      border: 1px solid rgba(0, 245, 255, 0.06);
+      border-radius: 10px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .meta-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.06), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .meta-item:hover {
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.048) 0%, rgba(0, 0, 0, 0.4) 100%);
+      border-color: rgba(0, 245, 255, 0.18);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 245, 255, 0.09);
+    }
+    
+    .meta-item:hover::before {
+      left: 100%;
+    }
+    
+    .meta-item svg {
+      opacity: 0.6;
+    }
+    
+    .tags-section {
+      margin-bottom: 32px;
+    }
+    
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #E5E5E5;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+    
+    .tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .tag {
+      padding: 8px 16px;
+      background: rgba(69, 183, 209, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(69, 183, 209, 0.3);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Sora', sans-serif;
+      transition: all 0.2s ease;
+    }
+    
+    .tag:hover {
+      background: rgba(69, 183, 209, 0.25);
+      transform: translateY(-1px);
+    }
+    
+    .content-section {
+      margin-bottom: 0;
+    }
+    
+    .prompt-content {
+      background: linear-gradient(145deg, rgba(0, 0, 0, 0.5) 0%, rgba(5, 5, 5, 0.6) 100%);
+      border: 1px solid rgba(0, 245, 255, 0.125);
+      border-radius: 16px;
+      padding: 40px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.9;
+      color: #9A9A9A;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 240px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 
+        inset 0 0 40px rgba(0, 245, 255, 0.0375),
+        0 4px 20px rgba(0, 0, 0, 0.4);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .prompt-content:hover {
+      border-color: rgba(0, 245, 255, 0.25);
+      box-shadow: 
+        inset 0 0 60px rgba(0, 245, 255, 0.0625),
+        0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .prompt-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+      opacity: 0.28;
+    }
+    
+    .prompt-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .prompt-content::-webkit-scrollbar-track {
+      background: #000000;
+      border-radius: 4px;
+    }
+    
+    .prompt-content::-webkit-scrollbar-thumb {
+      background: #000000;
+      border-radius: 4px;
+    }
+    
+    .prompt-content::-webkit-scrollbar-thumb:hover {
+      background: #0A0A0A;
+    }
+    
+    .footer {
+      background: transparent;
+      padding: 80px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .footer-inner {
+      max-width: 800px;
+      width: 100%;
+      padding: 0 56px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 60px;
+    }
+    
+    .footer-content {
+      flex: 0 0 auto;
+    }
+    
+    .footer-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 21px;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    
+    .footer-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 21px;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    
+    .footer-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+    
+    .btn-get-started {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      background: linear-gradient(135deg, #00ACB3 0%, #008194 100%);
+      background-size: 200% auto;
+      color: #000000;
+      text-decoration: none;
+      box-shadow: none;
+    }
+    
+    .btn-get-started * {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .btn-get-started::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+      z-index: 0;
+    }
+    
+    .btn-get-started:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .btn-get-started:hover {
+      transform: translateY(-2px);
+      background-position: right center;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn-get-started:active {
+      transform: translateY(0);
+    }
+    
+    .btn-learn-more {
+      padding: 14px 0 14px 20px;
+      background: transparent;
+      color: var(--text-primary);
+      border: none;
+      font-size: 14px;
+      font-weight: 400;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-learn-more:hover {
+      gap: 12px;
+      color: var(--accent-primary);
+    }
+    
+    .btn-learn-more svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s ease;
+    }
+    
+    .btn-learn-more:hover svg {
+      transform: translateX(4px);
+    }
+    
+    .error-state {
+      text-align: center;
+      padding: 80px 40px;
+    }
+    
+    .error-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 24px;
+      color: #FF6B6B;
+      opacity: 0.8;
+    }
+    
+    .error-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    
+    .error-message {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .loading-state {
+      text-align: center;
+      padding: 120px 40px;
+    }
+    
+    .loading-state p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 400;
+    }
+    
+    .spinner {
+      width: 56px;
+      height: 56px;
+      border: 3px solid rgba(255, 255, 255, 0.05);
+      border-top: 3px solid var(--accent-primary);
+      border-radius: 50%;
+      animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+      margin: 0 auto 32px;
+      box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(244, 67, 54, 0.15);
+      color: #FF6B6B;
+      border: 1px solid rgba(244, 67, 54, 0.3);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 20px 0;
+      }
+      
+      .navbar-content {
+        padding: 0 24px;
+      }
+      
+      .brand {
+        font-size: 14px;
+      }
+      
+      .brand svg {
+        width: 18px;
+        height: 18px;
+      }
+      
+      .btn-signup {
+        padding: 8px 16px;
+      }
+      
+      .main-content {
+        padding: 40px 20px;
+      }
+      
+      .card-header {
+        padding: 22px 24px;
+      }
+      
+      .card-body {
+        padding: 32px 24px;
+      }
+      
+      .prompt-title {
+        font-size: 14px;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 24px;
+      }
+      
+      .btn-copy-header {
+        align-self: flex-start;
+      }
+      
+      .prompt-meta {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      
+      .meta-item {
+        justify-content: center;
+      }
+      
+      .footer {
+        padding: 60px 0;
+      }
+      
+      .footer-inner {
+        flex-direction: column;
+        padding: 0 24px;
+        text-align: center;
+        gap: 32px;
+      }
+      
+      .footer-title,
+      .footer-subtitle {
+        font-size: 16px;
+      }
+      
+      .footer-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+      }
+      
+      .btn-get-started,
+      .btn-learn-more {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <nav class="navbar">
+      <div class="navbar-content">
+        <div class="brand">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+          Prompt Manager
+        </div>
+        <a href="https://chrome.google.com/webstore" class="btn-signup" target="_blank">
+          Sign Up
+        </a>
+      </div>
+    </nav>
+    
+    <main class="main-content">
+      <div class="content-card">
+        <div id="loadingArea" class="loading-state">
+          <div class="spinner"></div>
+          <p style="color: var(--text-secondary); margin-bottom: 20px;">Loading shared prompt...</p>
+          <button id="testStorageBtn" style="padding: 10px 20px; background: var(--accent); color: #000; border: none; border-radius: 6px; cursor: pointer; font-family: 'Montserrat', sans-serif;">
+            Test Storage Access
+          </button>
+          <p id="testResult" style="margin-top: 12px; font-size: 12px; color: var(--text-secondary);"></p>
+        </div>
+        <div id="contentArea" style="display: none;">
+          <!-- Content will be dynamically loaded -->
+        </div>
+      </div>
+    </main>
+    
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-content">
+          <h2 class="footer-title">Ready to dive in?</h2>
+          <p class="footer-subtitle">Start your free trial today.</p>
+        </div>
+        <div class="footer-actions">
+          <a href="https://chrome.google.com/webstore" class="btn-get-started" target="_blank">
+            Get started
+          </a>
+          <a href="#" class="btn-learn-more" id="learnMoreBtn">
+            Learn more
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <script src="share.js"></script>
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slash Prompt</title>
+  <link rel="stylesheet" href="popup-panel-refined.css">
+  <!-- Tippy.js - Tooltip & Dropdown Library -->
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+  <!-- Lucide Icons (Local) -->
+  <script src="lucide.min.js"></script>
+</head>
+<body>
+  <div class="panel-container">
+    <!-- Header - Glassmorphism, premium brand mark -->
+    <header class="header">
+      <div class="header-brand">
+        <span class="header-logo">//</span>
+        <h1 class="header-title-text">
+          <span class="header-title-slash">Slash</span>
+          <span class="header-title-prompt">Prompt</span>
+        </h1>
+      </div>
+      <div class="header-actions">
+        <button id="settingsHeaderBtn" class="header-icon-btn" data-tooltip="Settings">
+          <i data-lucide="settings" class="header-icon"></i>
+        </button>
+        <button id="feedbackHeaderBtn" class="header-icon-btn" data-tooltip="Feedback">
+          <i data-lucide="message-circle" class="header-icon"></i>
+        </button>
+        <button id="closePanelBtn" class="header-icon-btn" data-tooltip="Close">
+          <i data-lucide="x" class="header-icon"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Elite Floating Pill Navigation -->
+    <div class="nav-floating-pill" data-active="prompts">
+      <div class="nav-pill-indicator"></div>
+      <button class="nav-tab active" data-tab="prompts">
+        <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <span>Prompts</span>
+      </button>
+      <button class="nav-tab" data-tab="favorites">
+        <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        <span>Favorites</span>
+      </button>
+      <button class="nav-tab" data-tab="folders">
+        <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Folders</span>
+      </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+      <!-- Prompts Tab -->
+      <div id="promptsTab" class="tab-panel active">
+        <!-- Search Bar with Dynamic Inline Actions -->
+        <div class="search-container">
+          <div class="search-wrapper">
+            <div class="search-input-wrapper">
+              <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input type="text" id="searchInput" class="search-input" placeholder="Search Prompts..." autocomplete="off">
+              <button id="clearSearchBtn" class="search-clear-btn" style="display: none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <!-- Inline actions shown when library has prompts -->
+            <div id="inlineActions" class="inline-actions">
+              <button id="inlineAddBtn" class="inline-action-btn" data-tooltip="Add New Prompt">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+              <button id="inlineImportBtn" class="inline-action-btn" data-tooltip="Import From File">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <path d="M12 18v-6"></path>
+                  <path d="m9 15 3-3 3 3"></path>
+                </svg>
+              </button>
+              <button id="inlineExportBtn" class="inline-action-btn" data-tooltip="Download All">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+              </button>
+              <button id="inlineManageBtn" class="inline-action-btn" data-tooltip="Manage Prompts">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Action Buttons (shown only when empty) -->
+        <div id="actionButtons" class="action-buttons empty-state-buttons">
+          <button id="addPromptBtn" class="action-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>New Prompt</span>
+          </button>
+          <button id="manageBtn" class="action-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Manage Prompts</span>
+          </button>
+        </div>
+
+        <!-- Tag Filter Breadcrumb Navigation -->
+        <div id="tagFilter" class="tag-filter-breadcrumb" style="display: none;">
+          <button id="filterBackBtn" class="breadcrumb-link">
+            <span>All Prompts</span>
+          </button>
+          <span class="breadcrumb-separator">›</span>
+          <span id="activeFilterChip" class="breadcrumb-active"></span>
+        </div>
+
+        <!-- Prompts List -->
+        <div class="prompts-container">
+          <div id="promptsList" class="prompts-list">
+            <!-- Prompts will be dynamically inserted here -->
+          </div>
+          
+          <!-- Empty State -->
+          <div id="emptyState" class="empty-state" style="display: none;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <p class="empty-title">No prompts yet</p>
+            <p class="empty-subtitle">Create your first prompt or import from a file</p>
+            <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
+              <button id="addFirstPromptBtn" class="prompts-empty-btn primary">Create New Prompt</button>
+              <button id="importFromFileBtn" class="prompts-empty-btn secondary">Import from File</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer with Delete All -->
+        <div class="footer">
+          <div class="footer-stats">
+            <span id="promptCount">0 prompts</span>
+          </div>
+          <div class="footer-actions">
+            <button id="deleteAllBtn" class="text-btn danger">Delete All</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Favorites Tab -->
+      <div id="favoritesTab" class="tab-panel">
+        <!-- Search Bar and Controls -->
+        <div class="favorites-header">
+          <div class="search-container">
+            <div class="search-wrapper">
+              <div class="search-input-wrapper">
+                <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" id="favoritesSearchInput" class="search-input" placeholder="Search Favourites..." autocomplete="off">
+                <button id="clearFavoritesSearchBtn" class="search-clear-btn" style="display: none;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <!-- Action buttons -->
+              <div id="favoritesInlineActions" class="inline-actions">
+                <button id="favoritesAddBtn" class="inline-action-btn" data-tooltip="Add New Prompt">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+                <button id="sortDropdownTrigger" class="inline-action-btn" data-tooltip="Sort Favorites">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="4" y1="6" x2="11" y2="6"></line>
+                    <line x1="4" y1="12" x2="16" y2="12"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                  </svg>
+                </button>
+                <div class="sort-dropdown-menu" id="sortDropdownMenu" style="display: none; position: absolute; z-index: 1000;">
+                  <div class="sort-dropdown-item" data-value="mostUsed">Most Used</div>
+                  <div class="sort-dropdown-item" data-value="recentlyUsed">Recently Used</div>
+                  <div class="sort-dropdown-item" data-value="dateAdded">Date Added</div>
+                  <div class="sort-dropdown-item" data-value="customOrder">Custom</div>
+                </div>
+                <button id="downloadAllFavoritesBtn" class="inline-action-btn" data-tooltip="Download All">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                </button>
+                <button id="favoritesManageBtn" class="inline-action-btn" data-tooltip="Manage Prompts">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Favorites List -->
+        <div class="prompts-container">
+          <div id="favoritesList" class="prompts-list">
+            <!-- Favorite prompts will be dynamically inserted here -->
+          </div>
+          
+          <!-- Empty State -->
+          <div id="favoritesEmptyState" class="empty-state favorites-empty" style="display: none;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <p class="empty-title">No favorites yet</p>
+            <p class="empty-subtitle">Your favorite prompts will appear here</p>
+            <button id="goToPromptsBtn" class="prompts-empty-btn">Add to Favorites</button>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+          <div class="footer-stats">
+            <span id="favoritesCount">0 favorites</span>
+          </div>
+          <div class="footer-actions">
+            <button id="deleteFavoritesBtn" class="text-btn danger">Delete All</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Folders Tab -->
+      <div id="foldersTab" class="tab-panel">
+        <!-- Header with Search and New Folder Button -->
+        <div class="folders-header">
+          <div class="search-container">
+            <div class="search-wrapper">
+              <div class="search-input-wrapper">
+                <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" id="foldersSearchInput" class="search-input" placeholder="Search Folders..." autocomplete="off">
+                <button id="clearFoldersSearchBtn" class="search-clear-btn" style="display: none;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <!-- New Folder button -->
+              <div class="inline-actions">
+                <button id="newFolderBtn" class="inline-action-btn" data-tooltip="Create New Folder">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folders Tree View -->
+        <div class="folders-container">
+          <div id="foldersTree" class="folders-tree">
+            <!-- Folder tree will be dynamically inserted here -->
+          </div>
+          
+          <!-- Empty State -->
+          <div id="foldersEmptyState" class="empty-state folders-empty" style="display: none;">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <p class="empty-title">No folders yet</p>
+            <p class="empty-subtitle">Create folders to organize your prompts by category, project, or workflow</p>
+            <button id="createFirstFolderBtn" class="prompts-empty-btn">Create Your First Folder</button>
+          </div>
+          
+          <!-- Search Empty State -->
+          <div id="foldersSearchEmptyState" class="empty-state folders-search-empty" style="display: none;">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <p class="empty-title">No folders found</p>
+            <p class="empty-subtitle">Try a different search term or create a new folder</p>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+          <div class="footer-stats">
+            <span id="foldersCount">0 folders</span>
+          </div>
+          <div class="footer-actions">
+            <button id="deleteFoldersBtn" class="text-btn danger">Delete All</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div id="settingsTab" class="tab-panel">
+        <div class="settings-container">
+          <h2>Settings</h2>
+          
+          <div class="setting-group">
+            <h3>Slash Command</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="slashCommandToggle">Enable // Trigger</label>
+                <p>Type // to activate autocomplete in LLM chats</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="slashCommandToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="fuzzySearchToggle">Fuzzy Search</label>
+                <p>Enable fuzzy matching in search</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="fuzzySearchToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3>File Format</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="fileFormatSelect">Export Format</label>
+                <p>Choose file format for downloading prompts</p>
+              </div>
+              <div class="custom-dropdown" id="fileFormatDropdown">
+                <button type="button" class="custom-dropdown-trigger" id="fileFormatTrigger">
+                  <span class="dropdown-value">Markdown (.md)</span>
+                  <svg class="dropdown-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                    <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="custom-dropdown-menu" id="fileFormatMenu">
+                  <div class="custom-dropdown-item" data-value="json">
+                    <span class="dropdown-item-label">JSON (.json)</span>
+                    <svg class="dropdown-item-check" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <div class="custom-dropdown-item" data-value="txt">
+                    <span class="dropdown-item-label">Plain Text (.txt)</span>
+                    <svg class="dropdown-item-check" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <div class="custom-dropdown-item active" data-value="md">
+                    <span class="dropdown-item-label">Markdown (.md)</span>
+                    <svg class="dropdown-item-check" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <div class="custom-dropdown-item" data-value="xml">
+                    <span class="dropdown-item-label">XML (.xml)</span>
+                    <svg class="dropdown-item-check" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <select id="fileFormatSelect" class="format-select" style="display: none;">
+                <option value="json">JSON (.json)</option>
+                <option value="txt">Plain Text (.txt)</option>
+                <option value="md" selected>Markdown (.md)</option>
+                <option value="xml">XML (.xml)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3>Prompt Variables</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="popupVariableSyntaxSelect">Variable Syntax</label>
+                <p>Choose how variables are formatted in prompts</p>
+              </div>
+              <div class="custom-dropdown" id="variableSyntaxDropdown">
+                <button type="button" class="custom-dropdown-trigger" id="variableSyntaxTrigger">
+                  <span class="dropdown-value">{{VARIABLE}}</span>
+                  <svg class="dropdown-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                    <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="custom-dropdown-menu" id="variableSyntaxMenu">
+                  <div class="custom-dropdown-item active" data-value="{{}}">
+                    <span class="dropdown-item-label">{{VARIABLE}}</span>
+                    <svg class="dropdown-item-check" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <div class="custom-dropdown-item" data-value="<>">
+                    <span class="dropdown-item-label">&lt;VARIABLE&gt;</span>
+                    <svg class="dropdown-item-check" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <div class="custom-dropdown-item" data-value="[]">
+                    <span class="dropdown-item-label">[VARIABLE]</span>
+                    <svg class="dropdown-item-check" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <div class="custom-dropdown-item" data-value="__">
+                    <span class="dropdown-item-label">__VARIABLE__</span>
+                    <svg class="dropdown-item-check" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <div class="custom-dropdown-item" data-value="custom">
+                    <span class="dropdown-item-label">Custom...</span>
+                    <svg class="dropdown-item-check" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <select id="popupVariableSyntaxSelect" class="format-select" style="display: none;">
+                <option value="{{}}" selected>{{VARIABLE}}</option>
+                <option value="<>">&lt;VARIABLE&gt;</option>
+                <option value="[]">[VARIABLE]</option>
+                <option value="__">__VARIABLE__</option>
+                <option value="custom">Custom...</option>
+              </select>
+            </div>
+            
+            <div id="popupCustomSyntaxContainer" class="custom-syntax-container" style="display: none;">
+              <div class="delimiter-inputs">
+                <div class="delimiter-input-group">
+                  <label class="delimiter-label">Start</label>
+                  <input type="text" id="popupCustomStartDelimiter" class="delimiter-input" placeholder="$$" maxlength="4">
+                </div>
+                <div class="delimiter-input-group">
+                  <label class="delimiter-label">End</label>
+                  <input type="text" id="popupCustomEndDelimiter" class="delimiter-input" placeholder="$$" maxlength="4">
+                </div>
+              </div>
+              <div id="popupSyntaxPreview" class="syntax-preview">
+                Preview: <strong>$$VARIABLE$$</strong>
+              </div>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3>Panel Mode</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="preferSidePanelToggle">Prefer Side Panel</label>
+                <p>Try to open as side panel when possible</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="preferSidePanelToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3>Appearance</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="darkModeToggle">Dark Mode</label>
+                <p>Always enabled for premium experience</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="darkModeToggle" checked disabled>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feedback Tab -->
+      <div id="feedbackTab" class="tab-panel">
+        <h2 class="tab-heading">Feedback</h2>
+        <div class="feedback-container">
+          <form id="feedbackForm" class="feedback-form">
+            <div class="form-group">
+              <label for="feedbackSubject">Subject</label>
+              <input type="text" id="feedbackSubject" class="form-input" placeholder="Brief description of your feedback..." required>
+            </div>
+            
+            <div class="form-group">
+              <label for="feedbackBody">Your Feedback</label>
+              <textarea id="feedbackBody" class="form-textarea" placeholder="Describe your feedback, bug report, or feature request in detail..." required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Submit Feedback</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Prompt Modal -->
+  <div id="promptModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Create New Prompt</h2>
+        <button id="closeModal" class="modal-close-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="promptTitle">Title</label>
+          <input type="text" id="promptTitle" class="form-input" placeholder="Enter prompt title..." required>
+        </div>
+        
+        <div class="form-group">
+          <label for="promptContent" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Prompt Template</span>
+            <button id="insertVariableBtn" class="insert-variable-btn-inline" type="button" data-tooltip="Add a prompt variable">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14"></path>
+              </svg>
+            </button>
+          </label>
+          <textarea id="promptContent" class="form-textarea" placeholder="Enter your prompt here.&#10;&#10;Use &quot;+&quot; button from above to add {{variables}} for creating reusable prompts.&#10;&#10;You can customize the syntax for adding variables from Settings i.e [ ], &lt; &gt;, { } etc." rows="6" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label>Prompt Tags</label>
+          <div class="tag-input-wrapper">
+            <input type="text" id="newTagInput" class="form-input" placeholder="Type a tag name and &quot;Enter&quot;">
+          </div>
+          <div id="tagSelector" class="tag-selector">
+            <!-- Selected tags will be displayed here -->
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="promptFolder">Prompt Folder</label>
+          <div id="promptFolderDropdown" class="custom-folder-dropdown">
+            <button type="button" class="custom-folder-dropdown-trigger">
+              <span class="selected-folder-text placeholder-text">Select a Folder</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="custom-folder-dropdown-menu">
+              <!-- Tree view will be dynamically inserted here -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelBtn" class="action-btn secondary">Cancel</button>
+        <button id="savePromptBtn" class="action-btn primary">Save Prompt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete All Confirmation Modal -->
+  <div id="deleteAllModal" class="modal" style="display: none;">
+    <div class="modal-content confirmation-modal">
+      <div class="modal-header">
+        <h2>Confirm Delete</h2>
+        <button id="closeDeleteModal" class="icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <p>Are you sure you want to delete all prompts?</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelDeleteBtn" class="action-btn secondary">Cancel</button>
+        <button id="confirmDeleteBtn" class="action-btn primary danger">Delete All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete All Favorites Confirmation Modal -->
+  <div id="deleteFavoritesModal" class="modal" style="display: none;">
+    <div class="modal-content confirmation-modal">
+      <div class="modal-header">
+        <h2>Confirm Delete</h2>
+        <button id="closeDeleteFavoritesModal" class="icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <p>Are you sure, you want to delete all favorites?</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelDeleteFavoritesBtn" class="action-btn secondary">Cancel</button>
+        <button id="confirmDeleteFavoritesBtn" class="action-btn primary danger">Delete All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download Favourites Modal -->
+  <div id="downloadFavouritesModal" class="modal" style="display: none;">
+    <div class="modal-content confirmation-modal">
+      <div class="modal-header">
+        <h2>Download Favourites</h2>
+        <button id="closeDownloadFavouritesModal" class="icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <p id="downloadFavouritesText">Yay! You can download all your favorite prompts as a file and share them with others.</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelDownloadFavouritesBtn" class="action-btn secondary">Cancel</button>
+        <button id="confirmDownloadFavouritesBtn" class="action-btn primary">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete All Folders Confirmation Modal -->
+  <div id="deleteFoldersModal" class="modal" style="display: none;">
+    <div class="modal-content confirmation-modal">
+      <div class="modal-header">
+        <h2>Confirm Delete</h2>
+        <button id="closeDeleteFoldersModal" class="icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <p>Are you sure, you want to delete all folders?<br><br>This would also delete all prompts from "Prompts".</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelDeleteFoldersBtn" class="action-btn secondary">Cancel</button>
+        <button id="confirmDeleteFoldersBtn" class="action-btn primary danger">Delete All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Single Prompt Confirmation Modal -->
+  <div id="deletePromptModal" class="modal" style="display: none;">
+    <div class="modal-content confirmation-modal">
+      <div class="modal-header">
+        <h2>Confirm Delete</h2>
+        <button id="closeDeletePromptModal" class="icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <p id="deletePromptText">Are you sure, you want to delete this prompt?</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelDeletePromptBtn" class="action-btn secondary">Cancel</button>
+        <button id="confirmDeletePromptBtn" class="action-btn primary danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generic Confirmation Modal -->
+  <div id="confirmModal" class="modal" style="display: none;">
+    <div class="modal-content confirmation-modal">
+      <div class="modal-header">
+        <h2 id="confirmModalTitle">Confirm Action</h2>
+        <button id="closeConfirmModal" class="icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <p id="confirmModalMessage"></p>
+        <p id="confirmModalDetails" style="margin-top: 8px; font-size: 12px; color: var(--text-secondary);"></p>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelConfirmBtn" class="action-btn secondary">Cancel</button>
+        <button id="confirmActionBtn" class="action-btn primary danger">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Folder Modal (Create/Edit) -->
+  <div id="folderModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="folderModalTitle">Create New Folder</h2>
+        <button id="closeFolderModal" class="modal-close-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="folderName">Folder Name <span style="color: var(--accent-primary);">*</span></label>
+          <input type="text" id="folderName" class="form-input" placeholder="e.g., Work Projects" maxlength="50" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="folderParent">Parent Folder</label>
+          <div id="folderParentDropdown" class="custom-folder-dropdown">
+            <button type="button" class="custom-folder-dropdown-trigger">
+              <span class="selected-folder-text">Root</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="custom-folder-dropdown-menu">
+              <!-- Tree view will be dynamically inserted here -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelFolderBtn" class="action-btn secondary">Cancel</button>
+        <button id="saveFolderBtn" class="action-btn primary">Create Folder</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup-panel-refined.js"></script>
+</body>
+</html>

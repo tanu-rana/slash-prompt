@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slash Prompt - Options</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1 class="app-title">Slash Prompt</h1>
+        <span class="version">v1.0.0</span>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-page="library">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Library</span>
+        </button>
+        
+        <button class="nav-item" data-page="tags">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+          </svg>
+          <span>Tags</span>
+        </button>
+        
+        <button class="nav-item" data-page="settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6m0 6v6m4.22-13.22l4.24 4.24M18.36 18.36l4.24 4.24M23 12h-6m-6 0H1m4.22 4.22l-4.24 4.24M5.64 5.64L1.4 1.4"></path>
+          </svg>
+          <span>Settings</span>
+        </button>
+        
+        <button class="nav-item" data-page="about">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>About</span>
+        </button>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <button id="themeToggle" class="theme-toggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <span>Toggle Theme</span>
+        </button>
+      </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Library Page -->
+      <div id="libraryPage" class="page active">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Prompt Library</h2>
+            <p class="page-subtitle">Manage your collection of prompts</p>
+          </div>
+          
+          <div class="header-actions">
+            <button id="selectAllBtn" class="action-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 11 12 14 22 4"></polyline>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+              </svg>
+              <span>Select All</span>
+            </button>
+            
+            <button id="bulkDeleteBtn" class="action-btn danger" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Delete Selected</span>
+            </button>
+            
+            <button id="addPromptBtn" class="action-btn primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>New Prompt</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="toolbar">
+          <div class="search-box">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search prompts...">
+          </div>
+          
+          <div class="filter-tags" id="filterTags"></div>
+          
+          <div class="toolbar-actions">
+            <button id="importBtn" class="icon-btn" title="Import">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </button>
+            
+            <button id="exportBtn" class="icon-btn" title="Export">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </button>
+            
+            <button id="gridViewBtn" class="icon-btn active" title="Grid View">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </button>
+            
+            <button id="listViewBtn" class="icon-btn" title="List View">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div id="promptsGrid" class="prompts-grid">
+          <!-- Prompts will be dynamically inserted here -->
+        </div>
+        
+        <div id="emptyState" class="empty-state" style="display: none;">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <h3>No prompts yet</h3>
+          <p>Create your first prompt to get started</p>
+          <button id="emptyStateBtn" class="action-btn primary">Create First Prompt</button>
+        </div>
+      </div>
+      
+      <!-- Tags Page -->
+      <div id="tagsPage" class="page">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Tag Management</h2>
+            <p class="page-subtitle">Organize your prompts with custom tags</p>
+          </div>
+          
+          <button id="addTagBtn" class="action-btn primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>New Tag</span>
+          </button>
+        </div>
+        
+        <div class="tags-grid" id="tagsGrid">
+          <!-- Tags will be dynamically inserted here -->
+        </div>
+      </div>
+      
+      <!-- Settings Page -->
+      <div id="settingsPage" class="page">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Settings</h2>
+            <p class="page-subtitle">Customize your experience</p>
+          </div>
+        </div>
+        
+        <div class="settings-content">
+          <div class="setting-group">
+            <h3>File Format</h3>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="fileFormatSelect">Export/Download Format</label>
+                <p>Choose the file format for exporting and downloading prompts (import accepts all formats including XML)</p>
+              </div>
+              <select id="fileFormatSelect" class="setting-select">
+                <option value="json">JSON (.json)</option>
+                <option value="txt">Plain Text (.txt)</option>
+                <option value="md" selected>Markdown (.md)</option>
+                <option value="xml">XML (.xml)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3>Appearance</h3>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="darkModeToggle">Dark Mode</label>
+                <p>Use dark theme for the extension</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="darkModeToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3>Search & Suggestions</h3>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="fuzzySearchToggle">Fuzzy Search</label>
+                <p>Enable fuzzy matching for search results</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="fuzzySearchToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="autoSuggestToggle">Auto-Suggest</label>
+                <p>Automatically show suggestions when typing /</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="autoSuggestToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="maxSuggestions">Max Suggestions</label>
+                <p>Maximum number of suggestions to show</p>
+              </div>
+              <input type="number" id="maxSuggestions" class="setting-input" value="10" min="5" max="20">
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3>Syntax for Prompt Variables</h3>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="variableSyntaxSelect">Preferred Syntax</label>
+                <p>Choose how variables are formatted in your prompt templates</p>
+              </div>
+              <select id="variableSyntaxSelect" class="setting-select">
+                <option value="{{}}">Curly Braces: {{VARIABLE}}</option>
+                <option value="<>">Angle Brackets: &lt;VARIABLE&gt;</option>
+                <option value="[]">Square Brackets: [VARIABLE]</option>
+                <option value="__">Double Underscore: __VARIABLE__</option>
+                <option value="custom">Custom...</option>
+              </select>
+            </div>
+            
+            <div id="customSyntaxContainer" class="setting-item" style="display: none; flex-direction: column; align-items: flex-start;">
+              <div class="setting-info" style="margin-bottom: 12px;">
+                <label>Custom Delimiters</label>
+                <p>Define your own start and end delimiters for variables</p>
+              </div>
+              
+              <div style="display: flex; gap: 12px; width: 100%; margin-bottom: 12px;">
+                <div style="flex: 1;">
+                  <label for="customStartDelimiter" style="display: block; margin-bottom: 4px; font-size: 13px; color: #666;">Start Delimiter</label>
+                  <input type="text" id="customStartDelimiter" class="form-input" placeholder="$$" maxlength="4" style="width: 100%;">
+                </div>
+                <div style="flex: 1;">
+                  <label for="customEndDelimiter" style="display: block; margin-bottom: 4px; font-size: 13px; color: #666;">End Delimiter</label>
+                  <input type="text" id="customEndDelimiter" class="form-input" placeholder="$$" maxlength="4" style="width: 100%;">
+                </div>
+              </div>
+              
+              <div id="syntaxPreview" style="
+                padding: 12px 16px; 
+                background: #f5f5f5; 
+                border-left: 3px solid #22B8CF; 
+                border-radius: 4px; 
+                font-family: 'Courier New', monospace; 
+                font-size: 13px; 
+                color: #333;
+                width: 100%;
+                box-sizing: border-box;">
+                Your variables will look like: <strong>$$VARIABLE$$</strong>
+              </div>
+            </div>
+          </div>
+          
+          <div class="setting-group">
+            <h3>Data Management</h3>
+            
+            <div class="setting-item">
+              <button id="exportDataBtn" class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <span>Export All Data</span>
+              </button>
+              
+              <button id="clearDataBtn" class="action-btn danger">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                <span>Clear All Data</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- About Page -->
+      <div id="aboutPage" class="page">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">About</h2>
+            <p class="page-subtitle">Prompt Manager Pro v1.0.0</p>
+          </div>
+        </div>
+        
+        <div class="about-content">
+          <div class="about-section">
+            <h3>Features</h3>
+            <ul>
+              <li>Save and organize prompts with tags</li>
+              <li>Slash command integration in LLM chat windows</li>
+              <li>Import/Export prompt library as JSON</li>
+              <li>Fuzzy search with real-time filtering</li>
+              <li>Drag and drop reordering</li>
+              <li>Keyboard shortcuts for quick access</li>
+            </ul>
+          </div>
+          
+          <div class="about-section">
+            <h3>Keyboard Shortcuts</h3>
+            <div class="shortcut-list">
+              <div class="shortcut-item">
+                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>
+                <span>Open popup</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>/</kbd>
+                <span>Trigger autocomplete in chat</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>Esc</kbd>
+                <span>Close modal/dropdown</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="about-section">
+            <h3>Support</h3>
+            <p>For issues, feature requests, or questions, please visit our GitHub repository.</p>
+            <button class="action-btn primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+              <span>GitHub Repository</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Prompt Modal -->
+  <div id="promptModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Prompt</h2>
+        <button id="closeModal" class="icon-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="promptTitle">Title</label>
+          <input type="text" id="promptTitle" class="form-input" placeholder="Enter prompt title...">
+        </div>
+        
+        <div class="form-group">
+          <label for="promptContent">Content</label>
+          <div style="position: relative;">
+            <textarea id="promptContent" class="form-textarea" placeholder="Enter your prompt template. Use {{variables}} for creating customized and reusable context aware prompts. Variable syntax can be customized in 'Settings'." rows="8"></textarea>
+            <button id="insertVariableBtn" class="insert-variable-btn" type="button" title="Insert Variable">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14"></path>
+              </svg>
+              <span>Insert Variable</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Tags</label>
+          <div id="tagSelector" class="tag-selector">
+            <!-- Tags will be dynamically inserted -->
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelBtn" class="action-btn">Cancel</button>
+        <button id="savePromptBtn" class="action-btn primary">Save Prompt</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Tag Modal -->
+  <div id="tagModal" class="modal" style="display: none;">
+    <div class="modal-content small">
+      <div class="modal-header">
+        <h2 id="tagModalTitle">Add New Tag</h2>
+        <button id="closeTagModal" class="icon-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="tagName">Tag Name</label>
+          <input type="text" id="tagName" class="form-input" placeholder="Enter tag name...">
+        </div>
+        
+        <div class="form-group">
+          <label>Color</label>
+          <div class="color-picker" id="colorPicker">
+            <button class="color-option" data-color="#FF6B6B" style="background: #FF6B6B"></button>
+            <button class="color-option" data-color="#4ECDC4" style="background: #4ECDC4"></button>
+            <button class="color-option" data-color="#45B7D1" style="background: #45B7D1"></button>
+            <button class="color-option" data-color="#F7DC6F" style="background: #F7DC6F"></button>
+            <button class="color-option" data-color="#BB8FCE" style="background: #BB8FCE"></button>
+            <button class="color-option" data-color="#52C41A" style="background: #52C41A"></button>
+            <button class="color-option" data-color="#FFA500" style="background: #FFA500"></button>
+            <button class="color-option" data-color="#FF1493" style="background: #FF1493"></button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="cancelTagBtn" class="action-btn">Cancel</button>
+        <button id="saveTagBtn" class="action-btn primary">Save Tag</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html>
