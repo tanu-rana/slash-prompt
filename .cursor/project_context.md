@@ -82,18 +82,12 @@
     - icons/ (extension icons referenced by manifest)
     - scripts/ (dev utility: icon generation; not runtime)
   </active_directories>
-
-  <legacy_debris>
-    - content.css (Reason: content script CSS in manifest is content-refined.css; content.css is older)
-    - popup.html / popup.js / popup.css (Reason: not referenced by manifest action; replaced by popup-panel-refined.html)
-    - popup-panel.html / popup-panel.js / popup-panel.css (Reason: older popup panel variant; manifest uses refined files)
-    - sidepanel.html / sidepanel.js / sidepanel.css (Reason: present as web_accessible_resources but not used by current injection path; panel injection uses iframe to popup-panel-refined.html)
-    - inject-panel-shadow-test.js (Reason: test harness; not referenced by manifest)
-    - test-dropdown.html, test-search.js (Reason: local tests; not referenced by manifest)
-    - archive/ (Reason: documentation dump / historical logs; not linked to runtime)
-    - node_modules/ (Reason: dev-only; not used in extension runtime)
-    - *.md status/fix logs in repo root (Reason: documentation; not linked in runtime)
-  </legacy_debris>
+  <protected_directories>
+    - .cursor/ (AI configuration and project context)
+    - maintenance/ (safety tooling and git hooks)
+    - icons/ (extension icons referenced by manifest)
+    - scripts/ (development utilities)
+  </protected_directories>
 </file_system_status>
 
 <known_issues>
